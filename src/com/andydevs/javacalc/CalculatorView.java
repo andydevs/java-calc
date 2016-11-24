@@ -71,6 +71,7 @@ public class CalculatorView extends JFrame
 		// Input Component
 		input = new JTextField(71);
 		input.addKeyListener(new InputChangeListener());
+		input.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		// Add Components
 		add(outputPane);
