@@ -20,12 +20,56 @@ import javax.swing.event.*;
  */
 public class CalculatorView extends JFrame
 {
+	// ----------------------------- Out Level ------------------------------
+
+	/**
+	 * Represents the different output levels in the CalculatorView
+	 *
+	 * @author Anshul Kharbanda
+	 * @since  0.0.0
+	 */
+	public enum OutLevel
+	{
+		// Out levels
+		NORMAL("black"),
+		ERROR("red");
+
+		/**
+		 * The color of the level
+		 */
+		private String color;
+
+		/**
+		 * Creates the new out level with the given color
+		 *
+		 * @param c the color of the level
+		 */
+		private OutLevel(String c) { color = c; }
+
+		/**
+		 * Returns the color of the level
+		 *
+		 * @return the color of the level
+		 */
+		public String getColor() { return color; }
+	}
+
 	// ----------------------------- Constants ------------------------------
 
 	/**
 	 * The output line key
 	 */
 	public static final String OUTKEY = ">>>";
+
+	/**
+	 * Normal output level
+	 */
+	public static final int OUT_LEVEL_NORMAL = 0;
+
+	/**
+	 * Error output level
+	 */
+	public static final int OUT_LEVEL_ERROR  = 1;
 
 	// -------------------------- Swing Components --------------------------
 
@@ -43,6 +87,13 @@ public class CalculatorView extends JFrame
 	 * The input
 	 */
 	private JTextField input;
+
+	// ---------------------------- Controller ------------------------------
+
+	/**
+	 * The controller being called
+	 */
+	private CalculatorController controller;
 
 	// ---------------------------- Constructor -----------------------------
 
@@ -79,6 +130,9 @@ public class CalculatorView extends JFrame
 
 		// Set Visibility
 		setVisible(true);
+
+		// Set controller
+		controller = new CalculatorController();
 	}
 
 	// ---------------------------- Operations ------------------------------
@@ -90,7 +144,19 @@ public class CalculatorView extends JFrame
 	 */
 	public void output(String line)
 	{
-		output.setText(output.getText() + OUTKEY + " " + line + "<br>");
+		output.setText(output.getText() + "<p>" + OUTKEY + " " + line + "</p>");
+	}
+
+	/**
+	 * Outputs the given line to the view at the given level
+	 *
+	 * @param line  the line to output
+	 * @param level the level to output at
+	 */
+	public void output(String line, OutLevel level)
+	{
+		String cline = "<p color=\"" + level.getColor() + "\">" + OUTKEY + " " + line + "</p>";
+		output.setText(output.getText() + cline);
 	}
 
 	/**
@@ -158,8 +224,18 @@ public class CalculatorView extends JFrame
 	    	// If enter key is pressed (and input is not empty)
 	        if (event.getKeyCode() == KeyEvent.VK_ENTER && !input().equals(""))
 	        {
-	        	// Handle enter key
-	        	output(input());
+	        	// Process input
+	        	try
+	        	{
+	        		double out = controller.process(input());
+	        		output(String.valueOf(out));
+	        	}
+	        	catch (Exception e)
+	        	{
+	        		output(e.getClass().getSimpleName() + ": " + e.getMessage(), OutLevel.ERROR);
+	        	}
+
+	        	// Clear Input
 	        	clearInput();
 	        }
 	    }
