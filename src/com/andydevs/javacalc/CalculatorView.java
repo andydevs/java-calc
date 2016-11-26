@@ -61,16 +61,6 @@ public class CalculatorView extends JFrame
 	 */
 	public static final String OUTKEY = ">>>";
 
-	/**
-	 * Normal output level
-	 */
-	public static final int OUT_LEVEL_NORMAL = 0;
-
-	/**
-	 * Error output level
-	 */
-	public static final int OUT_LEVEL_ERROR  = 1;
-
 	// -------------------------- Swing Components --------------------------
 
 	/**

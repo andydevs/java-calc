@@ -7,13 +7,26 @@
 package com.andydevs.javacalc;
 
 /**
- * Controls calculation and operations
+ * Controls calculator operations
  * 
  * @author Anshul Kharbanda
  * @since  0.0.0
  */
 public class CalculatorController
 {
+	/**
+	 * The model being operated on
+	 */
+	private CalculatorModel model;
+
+	/** 
+	 * Creates a CalculatorController
+	 */
+	public CalculatorController()
+	{
+		model = new CalculatorModel();
+	}
+
 	/** 
 	 * Processes an input stream to a double value
 	 *
@@ -23,8 +36,8 @@ public class CalculatorController
 	 *
 	 * @throw Exception upon error parsing input
 	 */ 
-	public double process(String input) throws NumberFormatException
+	public double process(String input) throws Exception
 	{
-		return Double.parseDouble(input);
-	}	
+		return model.process(input);
+	}
 }
