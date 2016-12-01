@@ -122,7 +122,7 @@ public class CalculatorView extends JFrame
 		setVisible(true);
 
 		// Set controller
-		controller = new CalculatorController();
+		controller = new CalculatorController(this);
 	}
 
 	// ---------------------------- Operations ------------------------------
@@ -175,6 +175,22 @@ public class CalculatorView extends JFrame
 		input.setText("");
 	}
 
+	// ----------------------------- Formatter ------------------------------
+
+	/**
+	 * Formats the numeric value
+	 *
+	 * @param number the number to format
+	 *
+	 * @return string of formatted number
+	 */
+	private String formatNumber(double number)
+	{
+		if (Math.floor(number) == number && !Double.isInfinite(number))
+			return String.valueOf((int)number);
+		else return String.valueOf(number);
+	}
+
 	// ------------------------------ Events --------------------------------
 
 	/**
@@ -192,7 +208,7 @@ public class CalculatorView extends JFrame
 		 */
 		public void windowClosing(WindowEvent event)
 		{
-			System.exit(0);
+			controller.exit();
 		}
 	}
 
@@ -214,19 +230,7 @@ public class CalculatorView extends JFrame
 	    	// If enter key is pressed (and input is not empty)
 	        if (event.getKeyCode() == KeyEvent.VK_ENTER && !input().equals(""))
 	        {
-	        	// Process input
-	        	try
-	        	{
-	        		double out = controller.process(input());
-	        		output(String.valueOf(out));
-	        	}
-	        	catch (Exception e)
-	        	{
-	        		output(e.getClass().getSimpleName() + ": " + e.getMessage(), OutLevel.ERROR);
-	        	}
-
-	        	// Clear Input
-	        	clearInput();
+	        	controller.process();
 	        }
 	    }
 

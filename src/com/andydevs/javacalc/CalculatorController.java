@@ -15,29 +15,63 @@ package com.andydevs.javacalc;
 public class CalculatorController
 {
 	/**
+	 * The command to clear the input
+	 */
+	public static final String CLEAR_COMMAND = "clear";
+
+	/**
+	 * The exit command
+	 */
+	public static final String EXIT_COMMAND = "exit";
+
+	/**
 	 * The model being operated on
 	 */
 	private CalculatorModel model;
 
-	/** 
-	 * Creates a CalculatorController
+	/**
+	 * The view being controlled
 	 */
-	public CalculatorController()
+	private CalculatorView view;
+
+	/** 
+	 * Creates a CalculatorController with the given view
+	 *
+	 * @param v the view being controlled
+	 */
+	public CalculatorController(CalculatorView v)
 	{
+		view  = v;
 		model = new CalculatorModel();
 	}
 
 	/** 
-	 * Processes an input stream to a double value
-	 *
-	 * @param input the input to process
-	 *
-	 * @return double value representing the input
-	 *
-	 * @throw Exception upon error parsing input
+	 * Processes view inputs
 	 */ 
-	public double process(String input) throws Exception
+	public void process()
 	{
-		return model.process(input);
+		// Get input
+		String input = view.input();
+
+		// Handle System commands
+		if (input.equals(CLEAR_COMMAND)) view.clearOutput();
+		else if (input.equals(EXIT_COMMAND)) exit();
+		else 
+		{
+			// Process expression
+	    	try {
+	    		view.output(String.valueOf(model.process(input)));
+	    	} catch (Exception e) {
+	    		view.output(e.getClass().getSimpleName() + ": " + e.getMessage(), CalculatorView.OutLevel.ERROR);
+	    	}
+		}
+
+    	// Clear Input
+    	view.clearInput();
 	}
+
+	/**
+	 * Exits the program
+	 */
+	public void exit() { System.exit(0); }
 }
