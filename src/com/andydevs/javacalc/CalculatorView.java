@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.border.*;
 
 /**
  * Handles the user interface of the calculator
@@ -64,14 +65,14 @@ public class CalculatorView extends JFrame
 	// -------------------------- Swing Components --------------------------
 
 	/**
-	 * Panel the holds the output
-	 */
-	private JScrollPane outputPane;
-
-	/**
 	 * The output
 	 */
 	private JLabel output;
+
+	/**
+	 * Panel that holds the output
+	 */
+	private JScrollPane outputPane;
 
 	/**
 	 * The input
@@ -102,6 +103,9 @@ public class CalculatorView extends JFrame
 		// Output Component
 		output = new JLabel("<html>");
 		output.setVerticalAlignment(SwingConstants.TOP);
+		output.setOpaque(true);
+		output.setBackground(Color.WHITE);
+		output.setBorder(new EmptyBorder(1,5,5,5));
 		outputPane = new JScrollPane(output,
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
 			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -110,9 +114,12 @@ public class CalculatorView extends JFrame
 		outputPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		// Input Component
-		input = new JTextField(71);
+		input = new JTextField(70);
 		input.addKeyListener(new InputChangeListener());
-		input.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		input.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createLineBorder(Color.BLACK),
+			BorderFactory.createEmptyBorder(1,6,1,6)
+		));
 
 		// Add Components
 		add(outputPane);
@@ -188,7 +195,8 @@ public class CalculatorView extends JFrame
 	{
 		if (Math.floor(number) == number && !Double.isInfinite(number))
 			return String.valueOf((int)number);
-		else return String.valueOf(number);
+		else 
+			return String.valueOf(number);
 	}
 
 	// ------------------------------ Events --------------------------------
@@ -227,11 +235,9 @@ public class CalculatorView extends JFrame
 	     */
 	    public void keyPressed(KeyEvent event)
 	    {
-	    	// If enter key is pressed (and input is not empty)
+	    	// Process code if enter key is pressed (and input is not empty)
 	        if (event.getKeyCode() == KeyEvent.VK_ENTER && !input().equals(""))
-	        {
 	        	controller.process();
-	        }
 	    }
 
 		/**
