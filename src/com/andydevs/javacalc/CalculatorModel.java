@@ -2,7 +2,7 @@
  * A calculator written in Java (which follows the MVC design patterns)
  *
  * @author  Anshul Kharbanda
- * @version 0.0.0
+ * @version 0.1.0
  */
 package com.andydevs.javacalc;
 
@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
  * Controls calculations and data storage
  * 
  * @author Anshul Kharbanda
- * @since  0.0.0
+ * @since  0.1.0
  */
 public class CalculatorModel
 {

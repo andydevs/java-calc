@@ -10,7 +10,7 @@ package com.andydevs.javacalc;
  * Contains the main method
  * 
  * @author Anshul Kharbanda
- * @since  0.0.0
+ * @since  0.1.0
  */
 public class Main
 {
