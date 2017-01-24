@@ -25,9 +25,9 @@ public class CalculatorController
 	public static final String EXIT_COMMAND = "exit";
 
 	/**
-	 * The model being operated on
+	 * Parses expressions
 	 */
-	private CalculatorModel model;
+	private CalculatorExpressionParser parser;
 
 	/**
 	 * The view being controlled
@@ -41,8 +41,8 @@ public class CalculatorController
 	 */
 	public CalculatorController(CalculatorView v)
 	{
-		view  = v;
-		model = new CalculatorModel();
+		view = v;
+		parser = new CalculatorExpressionParser();
 	}
 
 	/** 
@@ -60,7 +60,7 @@ public class CalculatorController
 		{
 			// Process expression
 	    	try {
-	    		view.output(String.valueOf(model.process(input)));
+	    		view.output(parser.parse(input).toString());
 	    	} catch (Exception e) {
 	    		e.printStackTrace();
 	    		view.output(e.getClass().getSimpleName() + ": " + e.getMessage(), CalculatorView.OutLevel.ERROR);
