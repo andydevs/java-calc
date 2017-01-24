@@ -62,6 +62,7 @@ public class CalculatorController
 	    	try {
 	    		view.output(String.valueOf(model.process(input)));
 	    	} catch (Exception e) {
+	    		e.printStackTrace();
 	    		view.output(e.getClass().getSimpleName() + ": " + e.getMessage(), CalculatorView.OutLevel.ERROR);
 	    	}
 		}
